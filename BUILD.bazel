@@ -343,6 +343,7 @@ cc_library(
         "src/core/NEON/kernels/convolution/winograd",
         "src/core/cpu/kernels/assembly",
         "src/cpu/kernels/assembly",
+        "src/core/utils/helper/bit_ops.h",
     ],
     linkopts = select({
         #"//:openmp_flag": ["-fopenmp"],
