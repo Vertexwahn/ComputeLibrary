@@ -56,7 +56,7 @@ bool_flag(
 
 bool_flag(
     name = "openmp",
-    build_setting_default = True,
+    build_setting_default = False,
     visibility = ["//visibility:public"],
 )
 
@@ -98,7 +98,7 @@ config_setting(
 config_setting(
     name = "openmp_flag",
     flag_values = {
-        ":openmp": "true",
+        ":openmp": "false",
     },
 )
 
@@ -191,7 +191,7 @@ cc_library(
                 "//conditions:default": ["-O3"],
             }) +
             select({
-                "//:openmp_flag": ["-fopenmp"],
+                #"//:openmp_flag": ["-fopenmp"],
                 "//conditions:default": [],
             }) +
             select({
@@ -214,7 +214,8 @@ cc_library(
     name = "arm_compute_sve2",
     srcs = ["//src:arm_compute_sve2_srcs"],
     copts = [
-                "-march=armv8.6-a+sve2+fp16+dotprod",  # What arch is it we should go for here?
+                #"-march=armv8.6-a+sve2+fp16+dotprod",  # What arch is it we should go for here?
+                "-march=armv8.6-a+fp16+dotprod",
             ] + select({
                 "//:debug_flag": [
                     "-O0",
@@ -224,7 +225,7 @@ cc_library(
                 "//conditions:default": ["-O3"],
             }) +
             select({
-                "//:openmp_flag": ["-fopenmp"],
+                #"//:openmp_flag": ["-fopenmp"],
                 "//conditions:default": [],
             }) +
             select({
@@ -239,7 +240,7 @@ cc_library(
         "src/cpu/kernels/assembly",
     ],
     linkopts = select({
-        "//:openmp_flag": ["-fopenmp"],
+        #"//:openmp_flag": ["-fopenmp"],
         "//conditions:default": [],
     }),
     local_defines = [
@@ -273,7 +274,7 @@ cc_library(
                 "//conditions:default": ["-O3"],
             }) +
             select({
-                "//:openmp_flag": ["-fopenmp"],
+                #"//:openmp_flag": ["-fopenmp"],
                 "//conditions:default": [],
             }) +
             select({
@@ -288,7 +289,7 @@ cc_library(
         "src/cpu/kernels/assembly",
     ],
     linkopts = select({
-        "//:openmp_flag": ["-fopenmp"],
+        #"//:openmp_flag": ["-fopenmp"],
         "//conditions:default": [],
     }),
     local_defines = [
@@ -318,7 +319,7 @@ cc_library(
         "//:create_version_file",
     ],
     copts = [
-                "-march=armv8.2-a+fp16",  # What arch is it we should go for here?
+                "-march=armv8.2-a+fp16+sve",  # What arch is it we should go for here?
             ] + select({
                 "//:debug_flag": [
                     "-O0",
@@ -328,7 +329,7 @@ cc_library(
                 "//conditions:default": ["-O3"],
             }) +
             select({
-                "//:openmp_flag": ["-fopenmp"],
+                #"//:openmp_flag": ["-fopenmp"],
                 "//conditions:default": [],
             }) +
             select({
@@ -344,7 +345,7 @@ cc_library(
         "src/cpu/kernels/assembly",
     ],
     linkopts = select({
-        "//:openmp_flag": ["-fopenmp"],
+        #"//:openmp_flag": ["-fopenmp"],
         "//conditions:default": [],
     }),
     local_defines = [
@@ -359,8 +360,8 @@ cc_library(
         "//include",
         "//support",
         "//utils",
-        "//:arm_compute_sve",
-        "//:arm_compute_sve2"
+        #"//:arm_compute_sve",
+        #"//:arm_compute_sve2"
     ],
     alwayslink = True,
 )

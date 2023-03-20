@@ -955,7 +955,7 @@ filegroup(
 	"runtime/NEON/functions/NETranspose.cpp",
 	"runtime/NEON/functions/NEUnstack.cpp",
 	"runtime/NEON/functions/NEWinogradConvolutionLayer.cpp",
-	"runtime/OMP/OMPScheduler.cpp",
+	#"runtime/OMP/OMPScheduler.cpp",
 	"runtime/OffsetLifetimeManager.cpp",
 	"runtime/OffsetMemoryPool.cpp",
 	"runtime/OperatorTensor.cpp",
