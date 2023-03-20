@@ -167,9 +167,9 @@ cc_library(
 # Rule for creating file "arm_compute_version.embed"
 genrule(
     name = "create_version_file",
-    srcs = [".git/HEAD"],
+    #srcs = [".git/HEAD"],
     outs = ["arm_compute_version.embed"],
-    cmd = "$(location //scripts:print_version_file) bazel-build-options `cat $(location :.git/HEAD)` > $@",
+    cmd = "$(location //scripts:print_version_file) bazel-build-options refs/heads/apple-clang-support > $@",
     tools = ["//scripts:print_version_file"],
     visibility = ["//visibility:public"],
 )
