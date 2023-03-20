@@ -175,137 +175,6 @@ genrule(
 )
 
 #---------------------------------------------------------------------
-# Graph library
-
-cc_library(
-    name = "arm_compute_graph",
-    srcs = ["//src:arm_compute_graph_srcs"],
-    copts = [
-                "-march=armv8.2-a+fp16",  # What arch is it we should go for here?
-            ] + select({
-                "//:debug_flag": [
-                    "-O0",
-                    "-g",
-                    "-gdwarf-2",
-                ],
-                "//conditions:default": ["-O3"],
-            }) +
-            select({
-                #"//:openmp_flag": ["-fopenmp"],
-                "//conditions:default": [],
-            }) +
-            select({
-                "//:Werror_flag": ["-Werror"],
-                "//conditions:default": [],
-            }),
-    visibility = ["//visibility:public"],
-    deps = [
-        "arm_compute",
-        "//:common_defines",
-        "//arm_compute:graph_headers",
-    ],
-    alwayslink = True,
-)
-
-#---------------------------------------------------------------------
-# SVE2 library
-
-cc_library(
-    name = "arm_compute_sve2",
-    srcs = ["//src:arm_compute_sve2_srcs"],
-    copts = [
-                #"-march=armv8.6-a+sve2+fp16+dotprod",  # What arch is it we should go for here?
-                "-march=armv8.6-a+fp16+dotprod",
-            ] + select({
-                "//:debug_flag": [
-                    "-O0",
-                    "-g",
-                    "-gdwarf-2",
-                ],
-                "//conditions:default": ["-O3"],
-            }) +
-            select({
-                #"//:openmp_flag": ["-fopenmp"],
-                "//conditions:default": [],
-            }) +
-            select({
-                "//:Werror_flag": ["-Werror"],
-                "//conditions:default": [],
-            }),
-    includes = [
-        "src/core/NEON/kernels/arm_conv",
-        "src/core/NEON/kernels/arm_gemm",
-        "src/core/NEON/kernels/assembly",
-        "src/core/cpu/kernels/assembly",
-        "src/cpu/kernels/assembly",
-    ],
-    linkopts = select({
-        #"//:openmp_flag": ["-fopenmp"],
-        "//conditions:default": [],
-    }),
-    local_defines = [
-        "ARM_COMPUTE_ENABLE_SVE2",
-        "ARM_COMPUTE_ENABLE_BF16"
-    ],
-    deps = [
-        "//:common_defines",
-        "//arm_compute:core_headers",
-        "//arm_compute:runtime_headers",
-        "//include",
-        "//support",
-    ],
-    alwayslink = True,
-)
-
-#---------------------------------------------------------------------
-# SVE library
-
-cc_library(
-    name = "arm_compute_sve",
-    srcs = ["//src:arm_compute_sve_srcs"],
-    copts = [
-                "-march=armv8.2-a+sve+fp16+dotprod",  # What arch is it we should go for here?
-            ] + select({
-                "//:debug_flag": [
-                    "-O0",
-                    "-g",
-                    "-gdwarf-2",
-                ],
-                "//conditions:default": ["-O3"],
-            }) +
-            select({
-                #"//:openmp_flag": ["-fopenmp"],
-                "//conditions:default": [],
-            }) +
-            select({
-                "//:Werror_flag": ["-Werror"],
-                "//conditions:default": [],
-            }),
-    includes = [
-        "src/core/NEON/kernels/arm_conv",
-        "src/core/NEON/kernels/arm_gemm",
-        "src/core/NEON/kernels/assembly",
-        "src/core/cpu/kernels/assembly",
-        "src/cpu/kernels/assembly",
-    ],
-    linkopts = select({
-        #"//:openmp_flag": ["-fopenmp"],
-        "//conditions:default": [],
-    }),
-    local_defines = [
-        "ARM_COMPUTE_ENABLE_BF16",
-    ],
-    deps = [
-        "//:common_defines",
-        "//arm_compute:core_headers",
-        "//arm_compute:runtime_headers",
-        "//include",
-        "//support",
-    ],
-    alwayslink = True,
-)
-
-#---------------------------------------------------------------------
 # Core and Runtime library
 
 cc_library(
@@ -319,7 +188,7 @@ cc_library(
         "//:create_version_file",
     ],
     copts = [
-                "-march=armv8.2-a+fp16+sve",  # What arch is it we should go for here?
+                "-march=armv8.2-a+sve",  # What arch is it we should go for here?
             ] + select({
                 "//:debug_flag": [
                     "-O0",
